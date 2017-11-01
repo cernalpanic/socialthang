@@ -1,0 +1,56 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Lat:</strong>
+  <%= @listing.lat %>
+</p>
+
+<p>
+  <strong>Lon:</strong>
+  <%= @listing.lon %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @listing.address %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @listing.city %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @listing.state %>
+</p>
+
+<p>
+  <strong>Zip:</strong>
+  <%= @listing.zip %>
+</p>
+
+<%= link_to 'Edit', edit_listing_path(@listing) %> |
+<%= link_to 'Back', listings_path %>
+
+<div class="facebook_places">
+    <h1>facebook places</h1>
+        <% @facebook_places.each do |place| %>
+          <ul class="tweet">
+            <li><%= place %></li>
+          </ul>
+        <% end %>
+    </div>
+    </ul>
+</div>
+
+<div class="geo_search">
+    <h1>twitter places</h1>
+        <% @tweets.each do |tweet| %>
+          <ul class="tweet">
+            <li><%= tweet %></li>
+          </ul>
+        <% end %>
+    </ul>
+</div>
+
