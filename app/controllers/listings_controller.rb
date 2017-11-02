@@ -1,5 +1,6 @@
 class ListingsController < ApplicationController
   before_action :set_listing, only: [:show, :edit, :update, :destroy]
+  before_action :allow_iframe_requests
 
   # GET /listings
   # GET /listings.json
@@ -10,10 +11,13 @@ class ListingsController < ApplicationController
   # GET /listings/1
   # GET /listings/1.json
   def show
-    listing = Listing.find(params[:id])
-    @tweets = $twitter.geo_search({lat: listing.lat.to_f, long: listing.lon.to_f }).attrs[:result][:places]
+    lat = params[:lat].insert(2, '.')
+    lon = params[:lon].insert(3, '.')
+    @tweets = $twitter.geo_search({lat: lat, long: lon }).attrs[:result][:places]
+    #puts "tords tweets #{@tweets}"
     #@tweets = eval(IO.read(Rails.root + 'test/fixtures/tweets.rb'))[:result][:places]
-    @facebook_places = $facebook.search('fargo', type: :place, center: [listing.lat.to_f, listing.lon.to_f], distance:1)
+    @facebook_places = $facebook.search('fargo', type: :place, center: [lat, lon], distance:1)
+    #@facebook_places = {}
     #puts "tordio #{@tweets.inspect}"
   end
 
@@ -75,5 +79,9 @@ class ListingsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def listing_params
       params.require(:listing).permit(:lat, :lon, :address, :city, :state, :zip)
+    end
+
+    def allow_iframe_requests
+        response.headers.delete('X-Frame-Options')
     end
 end
